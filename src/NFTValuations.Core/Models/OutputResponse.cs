@@ -2,7 +2,7 @@
 
 namespace NFTValuations.Core.Models
 {
-    public partial class OutPut
+    public partial class OutputResponse
     {
         [JsonProperty("Name", NullValueHandling = NullValueHandling.Ignore)]
         public string Name { get; set; }
@@ -29,13 +29,15 @@ namespace NFTValuations.Core.Models
         public string PropertyProperty { get; set; }
     }
 
-    public partial class OutPut
+    public partial class OutputResponse
     {
-        public static OutPut FromJson(string json) => JsonConvert.DeserializeObject<OutPut>(json, Converter.Settings);
+        public static OutputResponse FromJson(string json) => JsonConvert.DeserializeObject<OutputResponse>(json, Converter.Settings);
     }
 
     public static partial class Serialize
     {
-        public static string ToJson(this OutPut self) => JsonConvert.SerializeObject(self, Converter.Settings);
+        public static string ToJson(this OutputResponse? self) => JsonConvert.SerializeObject(self, Converter.Settings);
     }
+    
+
 }

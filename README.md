@@ -25,14 +25,14 @@ In case the requirements are not met or they are not finished please explain the
 - [X] Parse Input
 - [X] Token URI + Smart Contract Interaction
 - [X] Processing Token URI + Output
-- [ ] Add Tests
-- [ ] Add Usage Demo Gif
+- [X] Add Tests
+
 
 ## System Requirements
 1. Visual Studio 2022 to open and debug the code
 2. .net 6 installed to run the code.
-3. **etherscan.io** api key on **appsettings.json**
-4. **infura.io** api key on **appsettings.json**
+3. **moralis.io** api key on **appsettings.json** and on test project
+
 
 ## Instructions
 1. Unzip the project  
@@ -49,7 +49,7 @@ In case the requirements are not met or they are not finished please explain the
    ```csharp
    dotnet test
    ```
-   ![](docs/tests.png)
+    ![](docs/tests.png)
    
 6. To run
    ```csharp
@@ -57,19 +57,17 @@ In case the requirements are not met or they are not finished please explain the
    ```
 7. Navigate to "\src\NFTValuations.Console\bin\Debug\net6.0\" from command line
    ```csharp
-    NFTValuations.Console.exe
+   NFTValuations.Console.exe  
   
-    NFTValuations.Console.exe  
-  
-    
    ```
 
 
 ## Demo
 
-Check out the demo project for a quick example of how it works.
+Check out the demo project for a quick example of how it works.  
+  
+  ![demo](docs/demo.gif)
 
-![Demo Gif]()
 
 
 ## Contact

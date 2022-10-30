@@ -17,48 +17,24 @@ public class App
     {
         string jsonInput = "";
 
-        foreach (var t in args)
+        if (File.Exists("TestData.json"))
         {
-            if (t.ToLower().StartsWith("input="))
-            {
-                jsonInput = t.Substring(6);
-                break;
-            }
+            jsonInput = File.ReadAllText("TestData.json");
         }
-
-        var inputModel = Input.FromJson(jsonInput);
-
-        var result = await _extractNftMetaData.GetTokenMeta(inputModel);
-
-
-        var output = new OutPut();
-        output.Properties = new List<Property>();
+        else
+        {
+            System.Console.Write("Can not find testdata file!!!");
+        }
         
-
-        foreach (var prop in result.Attributes)
+        var tokenData = TestData.FromJson(jsonInput);
+        
+        foreach (var token in tokenData.TokenData)
         {
-            output.Properties.Add(new Property()
-            {
-                Category = prop.TraitType,
-                PropertyProperty = prop.Value
-            });
+            var result = await _extractNftMetaData.GetTokenMeta(token);
+            System.Console.WriteLine(result.ToJson());
+            
         }
-        System.Console.WriteLine(output.ToJson());
-        //{
-        //    "Name": "Happy Ape #234", 
-        //    "Description": "An example description for a token", 
-        //    "ExternalUrl": "Example.com/tokens/1234", 
-        //    "Media": "example.com/image.jpg",  
-        //    "Properties": [
-        //    { "Category": "Eyes", "Property": "Sleepy" }, 
-        //    { "Category": "Background", "Property": "Army Green" }, 
-        //    { "Category": "Clothes", "Property": "Leather Jacket" }, 
-        //    { "Category": "Fur", "Property": "Blue" }, 
-        //    { "Category": "Mouth", "Property": "Bored Bubblegum" }, 
-        //    { "Category": "Hat", "Property": "Fisherman's Hat"} 
-        //    ] 
-        //}
-
+        
         System.Console.ReadLine();
     }
 }

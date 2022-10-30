@@ -6,11 +6,9 @@ using Microsoft.Extensions.Logging;
 using NFTValuations.Console;
 
 
-using IHost host = CreateHostBuilder(args).ConfigureAppConfiguration(cfg =>
-    {
-        cfg.AddJsonFile("appsettings.json");
-    })
+using IHost host = CreateHostBuilder(args)
     .Build();
+
 using var scope = host.Services.CreateScope();
 
 var logger = host.Services.GetRequiredService<ILogger<Program>>();
@@ -20,7 +18,7 @@ var services = scope.ServiceProvider;
 
 try
 {
-    services.GetRequiredService<App>().Run(args);
+    await services.GetRequiredService<App>().Run(args);
 }
 catch (Exception ex)
 {
@@ -30,21 +28,21 @@ catch (Exception ex)
 static IHostBuilder CreateHostBuilder(string[] args) =>
 
     Host.CreateDefaultBuilder(args)
+        .UseLamar((ctx, svc) =>
+            Startup.ConfigureContainer(svc, ctx.Configuration))
+
         .ConfigureAppConfiguration((hostingContext, config) =>
         {
             IHostEnvironment env = hostingContext.HostingEnvironment;
 
-            config.AddJsonFile("appsettings.json", optional: true, reloadOnChange: true)
+            config.AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
                 .AddJsonFile($"appsettings.{env.EnvironmentName}.json", optional: true, reloadOnChange: true);
 
             //config.AddJsonFile("secrets/appsettings.secrets.json", optional: true);
 
             config.AddEnvironmentVariables();
+            config.AddCommandLine(args);
 
-            if (args != null)
-            {
-                config.AddCommandLine(args);
-            }
         })
-        .ConfigureServices((ctx, svc) => Startup.ConfigureServices(svc, ctx.Configuration))
-        .UseLamar((ctx, svc) => Startup.ConfigureContainer(svc, ctx.Configuration));
+        .ConfigureServices((ctx, svc) =>
+            Startup.ConfigureServices(svc));
